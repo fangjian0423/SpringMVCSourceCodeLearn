@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-4.0.xsd
+           http://www.springframework.org/schema/mvc
+           http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd" default-autowire="byName">
+
+    <!-- 防止@ResponseBody出现的中文乱码 -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/plain;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+                        <constructor-arg ref="marshaller"/>
+                </bean>
+                <!--<bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>-->
+                <!--<bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter"/>-->
+                <!--<bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter"/>-->
+            </list>
+        </property>
+        <property name="customArgumentResolvers">
+            <list>
+                <bean class="org.format.demo.support.resolve.FormModelMethodArgumentResolver"/>
+                <bean class="org.format.demo.support.resolve.FormObjArgumentResolver"/>
+            </list>
+        </property>
+        <property name="webBindingInitializer">
+            <!--<bean class="org.format.demo.support.binder.MyWebBindingInitializer"/>-->
+            <ref bean="webBindingInitializer"/>
+        </property>
+    </bean>
+    <bean name="marshaller" class="org.springframework.oxm.xstream.XStreamMarshaller"/>
+    <!-- 防止@ResponseBody出现的中文乱码 -->
+
+    <mvc:resources location="/static/" mapping="/static/**"/>
+    <mvc:annotation-driven>
+        <mvc:async-support default-timeout="2000">
+
+        </mvc:async-support>
+    </mvc:annotation-driven>
+    <context:component-scan base-package="org.format.demo.controller" />
+
+    <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <bean class="org.format.demo.interceptor.LoginInterceptor"/>
+                <bean class="org.format.demo.interceptor.TestInterceptor"/>
+            </list>
+        </property>
+        <property name="order" value="-1"/>
+    </bean>-->
+
+    <!--<mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/login/out"/>
+            <mvc:exclude-mapping path="/login/auth"/>
+            &lt;!&ndash;<mvc:exclude-mapping path="/login/async"/>&ndash;&gt;
+            <bean class="org.format.demo.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>-->
+
+
+    <bean class="org.format.demo.support.exceptionResolver.MyExceptionHandlerExceptionResolver">
+        <property name="order" value="-2"/>
+    </bean>
+
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
+        <property name="customArgumentResolvers">
+            <list>
+                <bean class="org.springframework.web.servlet.mvc.method.annotation.ServletModelAttributeMethodProcessor">
+                    <constructor-arg name="annotationNotRequired" value="true"/>
+                </bean>
+            </list>
+        </property>
+        <property name="order" value="-1"/>
+    </bean>
+
+
+
+
+    <!--  JSR303 -->
+    <bean id="validator"
+          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="providerClass"  value="org.hibernate.validator.HibernateValidator"/>
+    </bean>
+    <bean id="webBindingInitializer"
+          class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+        <property name="validator" ref="validator"/>
+    </bean>
+    <!--  JSR303 -->
+
+
+
+
+    <!--<import resource="classpath:springConfig/viewConfig/jsp.xml"/>-->
+    <import resource="classpath:springConfig/viewConfig/freemarker.xml"/>
+    <!--<import resource="classpath:springConfig/viewConfig/custom.xml"/>-->
+
+
+</beans>

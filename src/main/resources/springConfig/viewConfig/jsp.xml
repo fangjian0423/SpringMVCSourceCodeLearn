@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+          http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       default-autowire="byName">
+
+    <!-- jsp视图 -->
+
+    <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/view/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>-->
+
+    <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="prefix" value="/WEB-INF/view/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>
+        <property name="viewNames">
+            <array>
+                <!--<value type="java.lang.String">*</value>-->
+                <value type="java.lang.String">index1</value>
+            </array>
+        </property>
+        <property name="contentType" value="text/html;charset=utf-8"/>
+        <property name="attributesMap">
+            <map>
+                <entry key="mytest" value="mytestvalue"/>
+            </map>
+        </property>
+            <property name="attributes">
+            <props>
+                <prop key="test">testvalue</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>
