@@ -64,7 +64,7 @@
         <property name="customEditors">
             <map key-type="java.lang.Class">
                 <!--②-1属性编辑器对应的属性类型-->
-                <entry key="org.format.demo.model.Dept" value="org.format.demo.propertyeditor.CustomDeptEditor">
+                <entry key="org.format.demo.model.Dept" value="org.format.demo.support.binder.CustomDeptEditor">
                     <!--②-2对应的属性编辑器Bean -->
                 </entry>
             </map>
