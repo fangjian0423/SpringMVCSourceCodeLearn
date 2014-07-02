@@ -35,7 +35,7 @@
         <property name="customArgumentResolvers">
             <list>
                 <bean class="org.format.demo.support.resolve.FormModelMethodArgumentResolver"/>
-                <bean class="org.format.demo.support.resolve.FormObjArgumentResolver"/>
+                <!--<bean class="org.format.demo.support.resolve.FormObjArgumentResolver"/>-->
             </list>
         </property>
         <property name="webBindingInitializer">
@@ -52,6 +52,8 @@
         </mvc:async-support>
     </mvc:annotation-driven>
     <context:component-scan base-package="org.format.demo.controller" />
+
+    <context:component-scan base-package="org.format.demo.support.postprocessor" />
 
     <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
         <property name="interceptors">
