@@ -24,11 +24,11 @@ public class BeanWrapperTest {
 
     @Test
     public void test02() {
-        TestModel tm = new TestModel();
-        BeanWrapperImpl bw = new BeanWrapperImpl(false);
-        bw.setWrappedInstance(tm);
-        bw.setPropertyValue("good", "1");
-        System.out.println(tm);
+//        TestModel tm = new TestModel();
+//        BeanWrapperImpl bw = new BeanWrapperImpl(false);
+//        bw.setWrappedInstance(tm);
+//        bw.setPropertyValue("good", "1");
+//        System.out.println(tm);
     }
 
     @Test
