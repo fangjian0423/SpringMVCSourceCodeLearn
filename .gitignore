@@ -3,3 +3,4 @@
 *.iws
 *.ipr
 npm-debug.log
+/.idea/*
